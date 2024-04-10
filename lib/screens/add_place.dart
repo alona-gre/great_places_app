@@ -1,12 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
 import 'package:great_places_app/models/place.dart';
-import 'package:great_places_app/models/place_location.dart';
 import 'package:great_places_app/providers/user_places.dart';
 import 'package:great_places_app/widgets/image_input.dart';
 import 'package:great_places_app/widgets/location_input.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({super.key});
@@ -24,16 +23,16 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
 
   void _savePlace() {
     final enteredTitle = _titleController.text;
-    if (enteredTitle.isEmpty || _selectedImage == null) {
+
+    if (enteredTitle.isEmpty ||
+        _selectedImage == null ||
+        _selectedLocation == null) {
       return;
     }
-    ref.read(userPlacesNotifierProvider.notifier).addNewPlace(
-          Place(
-            title: enteredTitle,
-            image: _selectedImage!,
-            location: _selectedLocation!,
-          ),
-        );
+
+    ref
+        .read(userPlacesProvider.notifier)
+        .addPlace(enteredTitle, _selectedImage!, _selectedLocation!);
 
     Navigator.of(context).pop();
   }
@@ -63,8 +62,8 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
             ),
             const SizedBox(height: 10),
             ImageInput(
-              onPickedImage: (img) {
-                _selectedImage = img;
+              onPickImage: (image) {
+                _selectedImage = image;
               },
             ),
             const SizedBox(height: 10),

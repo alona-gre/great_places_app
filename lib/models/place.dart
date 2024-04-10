@@ -1,9 +1,20 @@
 import 'dart:io';
 
-import 'package:great_places_app/models/place_location.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
+
+class PlaceLocation {
+  const PlaceLocation({
+    required this.latitude,
+    required this.longitude,
+    required this.address,
+  });
+
+  final double latitude;
+  final double longitude;
+  final String address;
+}
 
 class Place {
   Place({

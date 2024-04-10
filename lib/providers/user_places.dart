@@ -1,21 +1,18 @@
-import 'package:great_places_app/models/place.dart';
+import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:great_places_app/models/place.dart';
 
 class UserPlacesNotifier extends StateNotifier<List<Place>> {
   UserPlacesNotifier() : super(const []);
 
-  void addNewPlace(Place newPlace) {
-    state = [
-      newPlace,
-      ...state,
-    ];
+  void addPlace(String title, File image, PlaceLocation location) {
+    final newPlace = Place(title: title, image: image, location: location);
+    state = [newPlace, ...state];
   }
 }
 
-final userPlacesNotifierProvider =
+final userPlacesProvider =
     StateNotifierProvider<UserPlacesNotifier, List<Place>>(
-  (ref) {
-    return UserPlacesNotifier();
-  },
+  (ref) => UserPlacesNotifier(),
 );
