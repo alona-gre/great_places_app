@@ -26,7 +26,7 @@ final theme = ThemeData().copyWith(
   ),
 );
 
-void main() {
+void main() async {
   runApp(const ProviderScope(
     child: MyApp(),
   ));
