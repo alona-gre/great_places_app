@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:great_places_app/models/place.dart';
 import 'package:great_places_app/providers/user_places.dart';
+import 'package:great_places_app/widgets/image_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,16 +17,15 @@ class AddPlaceScreen extends ConsumerStatefulWidget {
 
 class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   final _titleController = TextEditingController();
+  File? _selectedImage;
 
   void _savePlace() {
     final enteredTitle = _titleController.text;
-
-    if (enteredTitle.isEmpty) {
+    if (enteredTitle.isEmpty || _selectedImage == null) {
       return;
     }
-
     ref.read(userPlacesNotifierProvider.notifier).addNewPlace(
-          Place(title: enteredTitle),
+          Place(title: enteredTitle, image: _selectedImage!),
         );
 
     Navigator.of(context).pop();
@@ -51,6 +53,12 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onBackground,
               ),
+            ),
+            const SizedBox(height: 10),
+            ImageInput(
+              onPickedImage: (img) {
+                _selectedImage = img;
+              },
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
