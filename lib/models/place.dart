@@ -21,7 +21,10 @@ class Place {
     required this.title,
     required this.image,
     required this.location,
-  }) : id = uuid.v4();
+    String? id,
+  })
+  // we assign uuid.v4() only if the id value wasn't passed
+  : id = id ?? uuid.v4();
 
   final String id;
   final String title;
